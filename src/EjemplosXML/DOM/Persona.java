@@ -12,6 +12,10 @@ public class Persona implements Serializable{
         this.edad = edad;
     }
 
+    public Persona() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public int getEdad() {
         return edad;
     }
