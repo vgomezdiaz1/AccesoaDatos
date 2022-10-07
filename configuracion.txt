@@ -1,0 +1,5 @@
+#Fichero de configuracion
+#Fri Sep 16 20:19:57 CEST 2022
+server=qwerty
+pass=Hola
+user=Victor
