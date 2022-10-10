@@ -5,6 +5,8 @@ import com.thoughtworks.xstream.XStream;
 import java.io.FileInputStream;
 import java.util.List;
 
+//Falta traer la libreria de Xstream para que funcione
+
 public class LeerDeSerializacion {
 
     public static void main(String[] args){
