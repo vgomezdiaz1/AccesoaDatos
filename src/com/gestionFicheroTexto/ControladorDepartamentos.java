@@ -24,15 +24,64 @@ public class ControladorDepartamentos {
         }
     }
 
+    public void consultarTodosDepartamentos() {
+        try (FileReader fr = new FileReader(f);
+                BufferedReader br = new BufferedReader(fr)) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] array = linea.split(";");
+                System.out.println("ID:" + array[0] + ", Nombre: " + array[1] + ", Responsable: " + array[2] + ", Numero empleados: " + array[3]);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void consultarDepartamento(int id) {
+        try (FileReader fr = new FileReader(f);
+                BufferedReader br = new BufferedReader(fr)) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] array = linea.split(";");
+                if (Integer.parseInt(array[0]) == id) {
+                    System.out.println("ID:" + array[0] + ", Nombre: " + array[1] + ", Responsable: " + array[2] + ", Numero empleados: " + array[3]);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void borrarDepartamento(int id) {
+        File f2 = new File("./aux.txt");
+        try (FileReader fr = new FileReader(f);
+                BufferedReader br = new BufferedReader(fr);
+                FileWriter fw = new FileWriter(f2);
+                BufferedWriter bw = new BufferedWriter(fw)) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] array = linea.split(";");
+                if (Integer.parseInt(array[0]) != id) {
+                    fw.write(linea + ";\n");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        f2.renameTo(f);
+
+    }
+
     public int leerUltimoId() {
         try (FileReader fr = new FileReader(f);
                 BufferedReader br = new BufferedReader(fr)) {
             String linea;
             String ultima = "";
-            while((linea = br.readLine())!=null){
+            while ((linea = br.readLine()) != null) {
                 ultima = linea;
             }
-            String[] array= ultima.split(";");
+            String[] array = ultima.split(";");
             return Integer.parseInt(array[0]);
         } catch (Exception e) {
             e.printStackTrace();
