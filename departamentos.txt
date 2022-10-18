@@ -1,0 +1,7 @@
+1;IT;Juan;34;;;
+2;IT;Juan;34;;;
+3;IT;Juan;34;;;
+5;IT;Andrea;4;;;
+6;IT;Juan;34;;
+7;IT;Victor;3;;
+8;IT;Andrea;4;;

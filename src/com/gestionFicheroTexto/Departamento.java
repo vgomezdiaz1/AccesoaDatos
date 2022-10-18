@@ -46,4 +46,10 @@ public class Departamento {
         this.responsable = responsable;
     }
 
+    @Override
+    public String toString() {
+        return "id=" + id + ", nombre=" + nombre + ", responsable=" + responsable + ", nEmpleados=" + nEmpleados;
+    }
+    
+
 }

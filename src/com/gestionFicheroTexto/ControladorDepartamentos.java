@@ -53,12 +53,29 @@ public class ControladorDepartamentos {
         }
     }
 
+    public Departamento devueltaDepartamento(int id) {
+        Departamento d = null;
+        try (FileReader fr = new FileReader(f);
+                BufferedReader br = new BufferedReader(fr)) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] array = linea.split(";");
+                if (Integer.parseInt(array[0]) == id) {
+                    d = new Departamento(Integer.parseInt(array[0]), array[1], array[2], Integer.parseInt(array[3]));
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return d;
+    }
+
     public void borrarDepartamento(int id) {
         File f2 = new File("./aux.txt");
         try (FileReader fr = new FileReader(f);
                 BufferedReader br = new BufferedReader(fr);
-                FileWriter fw = new FileWriter(f2);
-                BufferedWriter bw = new BufferedWriter(fw)) {
+                FileWriter fw = new FileWriter(f2);) {
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] array = linea.split(";");
@@ -70,7 +87,26 @@ public class ControladorDepartamentos {
             e.printStackTrace();
         }
         f2.renameTo(f);
+    }
 
+    public void modificarDepartamento(Departamento d) {
+        File f2 = new File("./aux.txt");
+        try (FileReader fr = new FileReader(f);
+                BufferedReader br = new BufferedReader(fr);
+                FileWriter fw = new FileWriter(f2);) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] array = linea.split(";");
+                if (Integer.parseInt(array[0]) != d.getId()) {
+                    fw.write(linea + ";\n");
+                } else {
+                    fw.write(d.getId() + ";" + d.getNombre() + ";" + d.getResponsable() + ";" + d.getnEmpleados() + ";\n");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        f2.renameTo(f);
     }
 
     public int leerUltimoId() {
