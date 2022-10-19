@@ -22,6 +22,7 @@ public class ControladorDepartamentos {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("Se ha creado el departamento " + n + ";" + d.getNombre() + ";" + d.getResponsable() + ";" + d.getnEmpleados());
     }
 
     public void consultarTodosDepartamentos() {
@@ -37,7 +38,7 @@ public class ControladorDepartamentos {
         }
     }
 
-    public void consultarDepartamento(int id) {
+    public boolean consultarDepartamento(int id) {
         try (FileReader fr = new FileReader(f);
                 BufferedReader br = new BufferedReader(fr)) {
             String linea;
@@ -45,12 +46,14 @@ public class ControladorDepartamentos {
                 String[] array = linea.split(";");
                 if (Integer.parseInt(array[0]) == id) {
                     System.out.println("ID:" + array[0] + ", Nombre: " + array[1] + ", Responsable: " + array[2] + ", Numero empleados: " + array[3]);
-                    break;
+                    return true;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return false;
     }
 
     public Departamento devueltaDepartamento(int id) {

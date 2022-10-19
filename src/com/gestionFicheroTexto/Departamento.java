@@ -13,6 +13,12 @@ public class Departamento {
         this.responsable = responsable;
         this.nEmpleados = nEmpleados;
     }
+    
+    public Departamento(String nombre, String responsable, int nEmpleados) {
+        this.nombre = nombre;
+        this.responsable = responsable;
+        this.nEmpleados = nEmpleados;
+    }
 
     public int getnEmpleados() {
         return nEmpleados;
