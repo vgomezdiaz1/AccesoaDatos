@@ -6,18 +6,21 @@ public class Departamento {
     private String nombre;
     private String responsable;
     private int nEmpleados;
+    private int nPlanta;
 
-    public Departamento(int id, String nombre, String responsable, int nEmpleados) {
+    public Departamento(int id, String nombre, String responsable, int nEmpleados, int nPlanta) {
         this.id = id;
         this.nombre = nombre;
         this.responsable = responsable;
         this.nEmpleados = nEmpleados;
+        this.nPlanta = nPlanta;
     }
-    
-    public Departamento(String nombre, String responsable, int nEmpleados) {
+
+    public Departamento(String nombre, String responsable, int nEmpleados, int nPlanta) {
         this.nombre = nombre;
         this.responsable = responsable;
         this.nEmpleados = nEmpleados;
+        this.nPlanta = nPlanta;
     }
 
     public int getnEmpleados() {
@@ -52,10 +55,16 @@ public class Departamento {
         this.responsable = responsable;
     }
 
+    public int getnPlanta() {
+        return nPlanta;
+    }
+
+    public void setnPlanta(int nPlanta) {
+        this.nPlanta = nPlanta;
+    }
+
     @Override
     public String toString() {
-        return "id=" + id + ", nombre=" + nombre + ", responsable=" + responsable + ", nEmpleados=" + nEmpleados;
+        return "id: " + id + ", nombre: " + nombre + ", responsable: " + responsable + ", nEmpleados: " + nEmpleados + ", nDepartamento: " + nPlanta;
     }
-    
-
 }

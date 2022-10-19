@@ -18,11 +18,11 @@ public class ControladorDepartamentos {
         int n = leerUltimoId() + 1;
         try (FileWriter fw = new FileWriter(f, true);
                 BufferedWriter bw = new BufferedWriter(fw)) {
-            bw.write(n + ";" + d.getNombre() + ";" + d.getResponsable() + ";" + d.getnEmpleados() + ";\n");
+            bw.write(n + ";" + d.getNombre() + ";" + d.getResponsable() + ";" + d.getnEmpleados() + ";" + d.getnPlanta() + ";\n");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Se ha creado el departamento " + n + ";" + d.getNombre() + ";" + d.getResponsable() + ";" + d.getnEmpleados());
+        System.out.println("Se ha creado el departamento " + n + ";" + d.getNombre() + ";" + d.getResponsable() + ";" + d.getnEmpleados() + ";" + d.getnPlanta());
     }
 
     public void consultarTodosDepartamentos() {
@@ -31,7 +31,7 @@ public class ControladorDepartamentos {
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] array = linea.split(";");
-                System.out.println("ID:" + array[0] + ", Nombre: " + array[1] + ", Responsable: " + array[2] + ", Numero empleados: " + array[3]);
+                System.out.println("ID:" + array[0] + ", Nombre: " + array[1] + ", Responsable: " + array[2] + ", Numero empleados: " + array[3] + ", Numero planta: " + array[4]);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,7 +45,7 @@ public class ControladorDepartamentos {
             while ((linea = br.readLine()) != null) {
                 String[] array = linea.split(";");
                 if (Integer.parseInt(array[0]) == id) {
-                    System.out.println("ID:" + array[0] + ", Nombre: " + array[1] + ", Responsable: " + array[2] + ", Numero empleados: " + array[3]);
+                    System.out.println("ID:" + array[0] + ", Nombre: " + array[1] + ", Responsable: " + array[2] + ", Numero empleados: " + array[3] + ", Numero planta: " + array[4]);
                     return true;
                 }
             }
@@ -64,7 +64,7 @@ public class ControladorDepartamentos {
             while ((linea = br.readLine()) != null) {
                 String[] array = linea.split(";");
                 if (Integer.parseInt(array[0]) == id) {
-                    d = new Departamento(Integer.parseInt(array[0]), array[1], array[2], Integer.parseInt(array[3]));
+                    d = new Departamento(Integer.parseInt(array[0]), array[1], array[2], Integer.parseInt(array[3]), Integer.parseInt(array[4]));
                     break;
                 }
             }
@@ -103,7 +103,7 @@ public class ControladorDepartamentos {
                 if (Integer.parseInt(array[0]) != d.getId()) {
                     fw.write(linea + ";\n");
                 } else {
-                    fw.write(d.getId() + ";" + d.getNombre() + ";" + d.getResponsable() + ";" + d.getnEmpleados() + ";\n");
+                    fw.write(d.getId() + ";" + d.getNombre() + ";" + d.getResponsable() + ";" + d.getnEmpleados() + ";" + d.getnPlanta() + ";\n");
                 }
             }
         } catch (Exception e) {

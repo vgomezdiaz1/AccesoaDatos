@@ -59,6 +59,7 @@ public class Exec {
 
     public static void crearDepartamento(Scanner sc, ControladorDepartamentos cp) {
         int n = -1;
+        int m = -1;
         System.out.println("Dime el nombre del departamento");
         String nombre = sc.nextLine();
         System.out.println("Dime el responsable: ");
@@ -73,7 +74,17 @@ public class Exec {
                 System.out.println("Lo introducido no es un numero");
             }
         } while (n < 0);
-        Departamento d = new Departamento(nombre, responsable, n);
+        do {
+            m = -1;
+            System.out.println("Dime el numero de planta");
+            String nEmpleados = sc.nextLine();
+            try {
+                m = Integer.parseInt(nEmpleados);
+            } catch (Exception e) {
+                System.out.println("Lo introducido no es un numero");
+            }
+        } while (m < 0);
+        Departamento d = new Departamento(nombre, responsable, n, m);
         cp.alta(d);
     }
 
@@ -112,6 +123,7 @@ public class Exec {
     public static void modificarDepartamento(Scanner sc, ControladorDepartamentos cp) {
         int m = -1;
         int n = -1;
+        int x = -1;
         String nEmpleados = "";
         do {
             System.out.println("Dime el id:");
@@ -123,7 +135,7 @@ public class Exec {
             }
         } while (m < 0);
         System.out.println("Este es el departamento que quieres modificar:");
-        if (cp.consultarDepartamento(m)) {   
+        if (cp.consultarDepartamento(m)) {
             Departamento dep = cp.devueltaDepartamento(m);
             System.out.println("Dime el nombre del departamento:");
             String nombre = sc.nextLine();
@@ -147,10 +159,19 @@ public class Exec {
             if (nEmpleados.equals("")) {
                 n = dep.getnEmpleados();
             }
-            Departamento d = new Departamento(m, nombre, responsable, n);
+            do {
+                System.out.println("Dime el numero de planta: ");
+                nEmpleados = sc.nextLine();
+                try {
+                    x = Integer.parseInt(nEmpleados);
+                } catch (Exception e) {
+                    System.out.println("Lo introducido no es un numero");
+                }
+            } while (x < 0 || nEmpleados.equals(""));
+            Departamento d = new Departamento(m, nombre, responsable, n, x);
             cp.modificarDepartamento(d);
             cp.consultarDepartamento(m);
-        }else{
+        } else {
             System.out.println("El departamento no existe");
         }
     }
