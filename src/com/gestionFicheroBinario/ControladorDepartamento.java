@@ -67,6 +67,7 @@ public class ControladorDepartamento {
                     }
                 }
             } catch (Exception e) {
+                dep = null;
             }
         } catch (Exception e) {
             e.printStackTrace();

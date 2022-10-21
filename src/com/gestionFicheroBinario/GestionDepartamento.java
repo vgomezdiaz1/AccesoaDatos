@@ -101,7 +101,12 @@ public class GestionDepartamento {
                 System.out.println("Lo introducido no es un numero");
             }
         } while (n < 0);
-        System.out.println(cp.consultaEspecifica(n).toString());
+        Departamento d = cp.consultaEspecifica(n);
+        if(d == null){
+            System.out.println("No existe ese departamento");
+        }else{
+           System.out.println(cp.consultaEspecifica(n).toString()); 
+        }
     }
 
     public static void consultaTodosDepartamento(ControladorDepartamento cp) {
