@@ -2,7 +2,7 @@ package com.gestionFicheroBinario;
 
 import java.io.Serializable;
 
-public class Departamento implements Serializable{
+public class Departamento extends Objeto implements Serializable{
 
     private int id;
     private String nombre;
@@ -11,7 +11,7 @@ public class Departamento implements Serializable{
     private int nPlanta;
 
     public Departamento(int id, String nombre, String responsable, int nEmpleados, int nPlanta) {
-        this.id = id;
+        super.setId(id);
         this.nombre = nombre;
         this.responsable = responsable;
         this.nEmpleados = nEmpleados;
@@ -33,10 +33,12 @@ public class Departamento implements Serializable{
         this.nEmpleados = nEmpleados;
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public void setId(int id) {
         this.id = id;
     }
