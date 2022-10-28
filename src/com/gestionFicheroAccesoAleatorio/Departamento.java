@@ -4,26 +4,19 @@ import java.io.Serializable;
 
 public class Departamento implements Serializable{
 
-    private int id;
     private StringBuilder nombre;
     private StringBuilder responsable;
     private int nEmpleados;
     private int nPlanta;
+    private boolean eliminado;
 
     //En los constructores llamamos a los seters de los StringBuilder para ponerles tamaño
-    public Departamento(int id, String nombre, String responsable, int nEmpleados, int nPlanta) {
-        this.id = id;
-        this.setNombre(nombre);
-        this.setResponsable(responsable);
-        this.nEmpleados = nEmpleados;
-        this.nPlanta = nPlanta;
-    }
-
     public Departamento(String nombre, String responsable, int nEmpleados, int nPlanta) {
         this.setNombre(nombre);
         this.setResponsable(responsable);
         this.nEmpleados = nEmpleados;
         this.nPlanta = nPlanta;
+        this.eliminado = false;
     }
 
     public int getnEmpleados() {
@@ -34,16 +27,8 @@ public class Departamento implements Serializable{
         this.nEmpleados = nEmpleados;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre.toString();
+    public StringBuilder getNombre() {
+        return nombre;
     }
 
     public void setNombre(String nombre) {
@@ -52,13 +37,13 @@ public class Departamento implements Serializable{
         this.nombre.setLength(50);
     }
 
-    public String getResponsable() {
-        return responsable.toString();
+    public StringBuilder getResponsable() {
+        return responsable;
     }
 
     public void setResponsable(String responsable) {
         this.responsable = new StringBuilder(responsable);
-        this.nombre.setLength(30);
+        this.responsable.setLength(30);
     }
 
     public int getnPlanta() {
@@ -69,12 +54,20 @@ public class Departamento implements Serializable{
         this.nPlanta = nPlanta;
     }
 
+    public boolean isEliminado() {
+        return eliminado;
+    }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
+    }
+
     @Override
     public String toString() {
-        return "id: " + id + ", nombre: " + nombre + ", responsable: " + responsable + ", nEmpleados: " + nEmpleados + ", nDepartamento: " + nPlanta;
+        return "nombre: " + nombre + ", responsable: " + responsable + ", nEmpleados: " + nEmpleados + ", nDepartamento: " + nPlanta;
     }
     
-    public int getSize(){
-        return 398;
+    public static int getSize(){
+        return 402;
     }
 }
