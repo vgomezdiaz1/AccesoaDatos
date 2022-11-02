@@ -18,6 +18,14 @@ public class Departamento implements Serializable{
         this.nPlanta = nPlanta;
         this.eliminado = false;
     }
+    
+    public Departamento(String nombre, String responsable, int nEmpleados, int nPlanta, boolean eliminado) {
+        this.setNombre(nombre);
+        this.setResponsable(responsable);
+        this.nEmpleados = nEmpleados;
+        this.nPlanta = nPlanta;
+        this.eliminado = eliminado;
+    }
 
     public int getnEmpleados() {
         return nEmpleados;
@@ -68,6 +76,6 @@ public class Departamento implements Serializable{
     }
     
     public static int getSize(){
-        return 402;
+        return 169;
     }
 }
