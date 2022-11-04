@@ -2,54 +2,204 @@ package com.gestionFicheroAccesoAleatorio;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Exec {
 
     public static void main(String[] args) {
-        ControladorDepartamento cd = new ControladorDepartamento("./departamento.dat");
-        Departamento d = new Departamento("ftquj", "6Gomez", 203, 405);
-        Departamento d1 = new Departamento("ashbjgfjdgtyeuyyrtyrernehgfdhdhdfghdghd", "Vidfsghsgfsdgsdfgsdfgctor", 12, 3);
-        Departamento d2 = new Departamento("ashbjgfjdgtyrnehgfdhdhdfghdghd", "Vidfsghsgffgctor", 23, 5);
-        Departamento d3 = new Departamento("Victor", "Gomez", 58, 9);
-        Departamento d4 = new Departamento("Ismael", "Perez", 8, 8);
+        Scanner sc = new Scanner(System.in);
+        ControladorDepartamento dp = new ControladorDepartamento("./departamento.dat");
+        int n = 0;
+        do {
+            n = menu(sc);
+            switch (n) {
+                case 1:
+                    crearDepartamento(sc, dp);
+                    break;
+                case 2:
+                    consultaDepartamento(sc, dp);
+                    break;
+                case 3:
+                    consultaTodosDepartamento(dp);
+                    break;
+                case 4:
+                    borrarDepartamento(sc, dp);
+                    break;
+                case 5:
+                    modificarDepartamento(sc, dp);
+                    break;
+                case 6:
+                    System.out.println("Hasta luego");
+                    break;
+            }
+        } while (n < 6);
+    }
+
+    public static int menu(Scanner sc) {
+        int n = 0;
+        do {
+            System.out.println("Que quieres hacer: ");
+            System.out.println("1-Crear departamento: ");
+            System.out.println("2-Consulta departamento: ");
+            System.out.println("3-Consulta todos los departamentos: ");
+            System.out.println("4-Borrar departamento: ");
+            System.out.println("5-Modificar departamento: ");
+            System.out.println("6-Salida");
+            String seleccion = sc.nextLine();
+            try {
+                n = Integer.parseInt(seleccion);
+            } catch (Exception e) {
+                System.out.println("La opcion introducida no es valida.");
+            }
+            if (!(n == 1 || n == 2 || n == 3 || n == 4 || n == 5 || n == 6)) {
+                System.out.println("Opcion no valida");
+            }
+        } while (!(n == 1 || n == 2 || n == 3 || n == 4 || n == 5 || n == 6));
+        return n;
+    }
+
+    public static void crearDepartamento(Scanner sc, ControladorDepartamento cp) {
+        int n = -1;
+        int m = -1;
+        System.out.println("Dime el nombre del departamento");
+        String nombre = sc.nextLine();
+        System.out.println("Dime el responsable: ");
+        String responsable = sc.nextLine();
+        do {
+            n = -1;
+            System.out.println("Dime el numero de empleados");
+            String nEmpleados = sc.nextLine();
+            try {
+                n = Integer.parseInt(nEmpleados);
+            } catch (Exception e) {
+                System.out.println("Lo introducido no es un numero");
+            }
+        } while (n < 0);
+        do {
+            m = -1;
+            System.out.println("Dime el numero de planta");
+            String nEmpleados = sc.nextLine();
+            try {
+                m = Integer.parseInt(nEmpleados);
+            } catch (Exception e) {
+                System.out.println("Lo introducido no es un numero");
+            }
+        } while (m < 0);
+        System.out.println("Dime la puerta: ");
+        String puerta = sc.nextLine();
+        Departamento d = new Departamento(nombre, responsable, n, m, puerta);
         try {
-            cd.alta(d);
-            cd.alta(d1);
-            cd.alta(d2);
-            cd.alta(d3);
-            cd.alta(d4);
+            cp.alta(d);
         } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(Exec.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ArrayList<Departamento> al = cd.consultaCompleta();
-        int contador = 0;
-        for (Departamento dep : al) {
-            System.out.println(contador + " " +dep);
-            contador++;
+    }
+
+    public static void consultaDepartamento(Scanner sc, ControladorDepartamento cp) {
+        int n = -1;
+        do {
+            System.out.println("Dime el departamento a consultar");
+            String nEmpleados = sc.nextLine();
+            try {
+                n = Integer.parseInt(nEmpleados);
+            } catch (Exception e) {
+                System.out.println("Lo introducido no es un numero");
+            }
+        } while (n < 0);
+        Departamento d = cp.consultaUnDepartamento(n);
+        if (d == null) {
+            System.out.println("No existe ese departamento");
+        } else {
+            System.out.println(cp.consultaUnDepartamento(n).toString());
         }
-        System.out.println("------------------------------");
-        System.out.println(cd.consultaUnDepartamento(1).toString());
+    }
+
+    public static void consultaTodosDepartamento(ControladorDepartamento cp) {
+        ArrayList<Departamento> al = cp.consultaCompleta();
+        for (Departamento d : al) {
+            System.out.println(d.toString());
+        }
+    }
+
+    public static void borrarDepartamento(Scanner sc, ControladorDepartamento cp) {
+        int n = -1;
+        do {
+            System.out.println("Dime el departamento a borrar");
+            String id = sc.nextLine();
+            try {
+                n = Integer.parseInt(id);
+            } catch (Exception e) {
+                System.out.println("Lo introducido no es un numero");
+            }
+        } while (n < 0);
         try {
-           cd.baja(2); 
+            cp.baja(n);
         } catch (Exception e) {
-            System.out.println("Departamento ya borrado");
+            System.out.println("El departamento no existe");
         }
-        System.out.println("------------------------------");
-        
-        al = cd.consultaCompleta();
-        contador = 0;
-        for (Departamento dep : al) {
-            System.out.println(contador + " " +dep);
-            contador++;
+
+    }
+
+    public static void modificarDepartamento(Scanner sc, ControladorDepartamento cp) {
+        int m = -1;
+        int n = -1;
+        int x = -1;
+        String nEmpleados = "";
+        do {
+            System.out.println("Dime el id:");
+            nEmpleados = sc.nextLine();
+            try {
+                m = Integer.parseInt(nEmpleados);
+            } catch (Exception e) {
+                System.out.println("Lo introducido no es un numero");
+            }
+        } while (m < 0);
+        try {
+            Departamento dep = cp.consultaUnDepartamento(m);
+            System.out.println("Este es el departamento que quieres modificar:");
+            System.out.println(dep.toString());
+            System.out.println("Dime el nombre del departamento:");
+            String nombre = sc.nextLine();
+            System.out.println("Dime el responsable: ");
+            String responsable = sc.nextLine();
+            do {
+                System.out.println("Dime el numero de empleados: ");
+                nEmpleados = sc.nextLine();
+                try {
+                    n = Integer.parseInt(nEmpleados);
+                } catch (Exception e) {
+                    System.out.println("Lo introducido no es un numero");
+                }
+            } while (n < 0 || nEmpleados.equals(""));
+            if (nombre.equals("")) {
+                nombre = dep.getNombre().toString();
+            }
+            if (responsable.equals("")) {
+                responsable = dep.getResponsable().toString();
+            }
+            if (nEmpleados.equals("")) {
+                n = dep.getnEmpleados();
+            }
+            do {
+                System.out.println("Dime el numero de planta: ");
+                nEmpleados = sc.nextLine();
+                try {
+                    x = Integer.parseInt(nEmpleados);
+                } catch (Exception e) {
+                    System.out.println("Lo introducido no es un numero");
+                }
+            } while (x < 0 || nEmpleados.equals(""));
+            System.out.println("Dime la puerta: ");
+            String puerta = sc.nextLine();
+            Departamento d = new Departamento(nombre, responsable, n, m, puerta);
+            cp.modificado(m, d);
+            dep = cp.consultaUnDepartamento(m);
+            System.out.println(dep.toString());
+        } catch (Exception e) {
+            System.out.println("El departamento no existe");
         }
-        Departamento d5 = new Departamento("Andrea", "Urtiaga", 5, 89);
-        cd.modificado(3, d5);
-        System.out.println("------------------------------");
-        al = cd.consultaCompleta();
-        contador = 0;
-        for (Departamento dep : al) {
-            System.out.println(contador + " " +dep);
-            contador++;
-        }
+
     }
 }

@@ -1,17 +1,9 @@
 package com.gestionFicheroAccesoAleatorio;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ControladorDepartamento {
 
@@ -58,6 +50,7 @@ public class ControladorDepartamento {
             raf.writeChars(d.getResponsable().toString());
             raf.writeInt(d.getnEmpleados());
             raf.writeInt(d.getnPlanta());
+            raf.writeChars(d.getPuerta().toString());
             raf.writeBoolean(d.isEliminado());
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -117,8 +110,11 @@ public class ControladorDepartamento {
             String responsable = new String(responsableArray);
             int nEmpleado = raf.readInt();
             int nPlanta = raf.readInt();
+            byte[] puertaArray = new byte[10];
+            raf.read(puertaArray);
+            String puerta = new String(puertaArray);
             boolean borrado = raf.readBoolean();
-            d = new Departamento(nombre, responsable, nEmpleado, nPlanta, borrado);
+            d = new Departamento(nombre, responsable, nEmpleado, nPlanta, puerta, borrado);
         } catch (Exception e) {
         }
         return d;

@@ -2,28 +2,31 @@ package com.gestionFicheroAccesoAleatorio;
 
 import java.io.Serializable;
 
-public class Departamento implements Serializable{
+public class Departamento implements Serializable {
 
     private StringBuilder nombre;
     private StringBuilder responsable;
     private int nEmpleados;
     private int nPlanta;
+    private StringBuilder puerta;
     private boolean eliminado;
 
     //En los constructores llamamos a los seters de los StringBuilder para ponerles tamaño
-    public Departamento(String nombre, String responsable, int nEmpleados, int nPlanta) {
+    public Departamento(String nombre, String responsable, int nEmpleados, int nPlanta, String puerta) {
         this.setNombre(nombre);
         this.setResponsable(responsable);
         this.nEmpleados = nEmpleados;
         this.nPlanta = nPlanta;
+        this.setPuerta(puerta);
         this.eliminado = false;
     }
-    
-    public Departamento(String nombre, String responsable, int nEmpleados, int nPlanta, boolean eliminado) {
+
+    public Departamento(String nombre, String responsable, int nEmpleados, int nPlanta, String puerta, boolean eliminado) {
         this.setNombre(nombre);
         this.setResponsable(responsable);
         this.nEmpleados = nEmpleados;
         this.nPlanta = nPlanta;
+        this.setPuerta(puerta);
         this.eliminado = eliminado;
     }
 
@@ -70,12 +73,22 @@ public class Departamento implements Serializable{
         this.eliminado = eliminado;
     }
 
+    public StringBuilder getPuerta() {
+        return puerta;
+    }
+
+    public void setPuerta(String puerta) {
+        this.puerta = new StringBuilder(puerta);
+        this.puerta.setLength(5);
+    }
+
     @Override
     public String toString() {
-        return "nombre: " + nombre + ", responsable: " + responsable + ", nEmpleados: " + nEmpleados + ", nDepartamento: " + nPlanta;
+        return "nombre: " + nombre + ", responsable: " + responsable + ", nEmpleados: " + nEmpleados + ", nDepartamento: " + nPlanta + ", puerta: " + puerta;
     }
-    
-    public static int getSize(){
-        return 169;
+
+    public static int getSize() {
+        return 179;
     }
+
 }
