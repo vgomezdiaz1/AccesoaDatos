@@ -1,10 +1,7 @@
 package com.gestionFicheroAccesoAleatorio;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Exec {
 
@@ -92,8 +89,8 @@ public class Exec {
         Departamento d = new Departamento(nombre, responsable, n, m, puerta);
         try {
             cp.alta(d);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Exec.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

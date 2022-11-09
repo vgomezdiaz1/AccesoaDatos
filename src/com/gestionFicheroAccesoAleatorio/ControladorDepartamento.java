@@ -1,6 +1,5 @@
 package com.gestionFicheroAccesoAleatorio;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class ControladorDepartamento {
         this.nombreFichero = nombreFichero;
     }
 
-    public void alta(Departamento d) throws FileNotFoundException {
+    public void alta(Departamento d){
         RandomAccessFile raf = null;
         try {
             raf = new RandomAccessFile(this.nombreFichero, "rw");
