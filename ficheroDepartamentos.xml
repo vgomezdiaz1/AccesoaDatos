@@ -1,0 +1,18 @@
+<departamentos>
+  <departamento>
+    <nombre>Victor</nombre>
+    <responsable>Andrea</responsable>
+    <nEmpleados>10</nEmpleados>
+    <nPlanta>5</nPlanta>
+    <puerta>A</puerta>
+    <eliminado>true</eliminado>
+  </departamento>
+  <departamento>
+    <nombre>Andrea</nombre>
+    <responsable>Jefa</responsable>
+    <nEmpleados>2</nEmpleados>
+    <nPlanta>8</nPlanta>
+    <puerta>B</puerta>
+    <eliminado>true</eliminado>
+  </departamento>
+</departamentos>
