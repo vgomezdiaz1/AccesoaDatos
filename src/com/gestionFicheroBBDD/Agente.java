@@ -10,6 +10,11 @@ public class Agente {
         this.nombre = nombre;
         this.eliminado = eliminado;
     }
+    
+    public Agente(String nombre) {
+        this.nombre = nombre;
+        this.eliminado = false;
+    }
 
     public boolean isEliminado() {
         return eliminado;

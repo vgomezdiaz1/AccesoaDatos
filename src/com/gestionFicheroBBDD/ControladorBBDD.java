@@ -33,7 +33,7 @@ public class ControladorBBDD {
                 + "pagada BOOLEAN,"
                 + "eliminado BOOLEAN,"
                 + "idAgente INTEGER,"
-                + "FOREIGN KEY idAgente REFERENCES Agente(id));");
+                + "FOREIGN KEY (idAgente) REFERENCES Agente(id));");
 
     }
 
@@ -48,7 +48,7 @@ public class ControladorBBDD {
     }
 
     public void crearAgente(Agente a) throws SQLException {
-        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("insert into Agente (nombre, eliminado) values ( ? , ? );");
+        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("insert into Agente (nombre, eliminado) values ( ? , ? )");
         pst.setString(1, a.getNombre());
         pst.setBoolean(2, a.isEliminado());
         pst.execute();
@@ -100,8 +100,9 @@ public class ControladorBBDD {
      * @throws SQLException
      */
     public Multa consultarMulta(int id) throws SQLException {
-        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("SELECT * from Multa WHERE id = ? and eliminado = false");
+        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("SELECT * from Multa WHERE id = ? and eliminado = ?");
         pst.setInt(1, id);
+        pst.setBoolean(2, false);
         ResultSet rs = pst.executeQuery();
         return recogerMulta(rs);
     }
@@ -126,8 +127,23 @@ public class ControladorBBDD {
      * @throws SQLException
      */
     public Agente consultarAgente(int id) throws SQLException {
-        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("SELECT * from Agente WHERE id = ? and eliminado = false");
+        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("SELECT * from Agente WHERE id = ? and eliminado = ?");
         pst.setInt(1, id);
+        pst.setBoolean(2, false);
+        ResultSet rs = pst.executeQuery();
+        return recogerAgente(rs);
+    }
+
+    /**
+     *
+     * @param id agente
+     * @return Devuelve el agente que sigue en activo por nombre
+     * @throws SQLException
+     */
+    public Agente consultarAgentePorNombre(String nombre) throws SQLException {
+        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("SELECT * from Agente WHERE nombre = ? and eliminado = ?");
+        pst.setString(1, nombre);
+        pst.setBoolean(2, false);
         ResultSet rs = pst.executeQuery();
         return recogerAgente(rs);
     }
@@ -144,31 +160,72 @@ public class ControladorBBDD {
         ResultSet rs = pst.executeQuery();
         return recogerAgente(rs);
     }
+
     /**
-     * 
-     * @return Devuelve todas las multas que siguen en activo
-     * @throws SQLException 
+     *
+     * @return Devuelve todas las multas que siguen en activo y estan sin pagar
+     * @throws SQLException
      */
-    public ArrayList<Multa> consultarTodasMulta() throws SQLException {
+    public ArrayList<Multa> consultarTodasMultaPagadas() throws SQLException {
         ArrayList<Multa> al = new ArrayList<>();
         Departamento d = null;
-        Statement st;
-        st = cn.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * from Multa where eliminado = false");
+        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("SELECT * from Multa where eliminado = ? and pagada = ?");
+        pst.setBoolean(1, false);
+        pst.setBoolean(2, false);
+        ResultSet rs = pst.executeQuery();
         while (rs.next()) {
             al.add(recogerMulta(rs));
         }
         return al;
     }
 
+    /**
+     *
+     * @return Devuelve todas las multas que siguen en activo
+     * @throws SQLException
+     */
+    public ArrayList<Multa> consultarTodasMulta() throws SQLException {
+        ArrayList<Multa> al = new ArrayList<>();
+        Departamento d = null;
+        Statement st;
+        st = cn.createStatement();
+        ResultSet rs = st.executeQuery("SELECT * from Multa where eliminado = 0");
+        while (rs.next()) {
+            al.add(recogerMulta(rs));
+        }
+        return al;
+    }
+
+    /**
+     *
+     * @return Devuelve todas los agentes que siguen en activo
+     * @throws SQLException
+     */
     public ArrayList<Agente> consultarTodasAgente() throws SQLException {
         ArrayList<Agente> al = new ArrayList<>();
         Departamento d = null;
         Statement st;
         st = cn.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * from Agente WHERE eliminado = false");
+        ResultSet rs = st.executeQuery("SELECT * from Agente WHERE eliminado = 0");
         while (rs.next()) {
             al.add(recogerAgente(rs));
+        }
+        return al;
+    }
+
+    public ArrayList<Multa> consultarTodasMultaPorAgente(String nombre) throws SQLException {
+        ArrayList<Multa> al = new ArrayList<>();
+        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("SELECT Multa.* from Multa INNER JOIN Agente ON Agente.id = Multa.id where Agente.nombre = ? ");
+        pst.setString(1, nombre);
+        ResultSet rs = pst.executeQuery();
+        while (rs.next()) {
+            int ident = rs.getInt("id");
+            String l = rs.getString("localidad");
+            double c = rs.getDouble("coste");
+            boolean p = rs.getBoolean("pagada");
+            boolean e = rs.getBoolean("eliminado");
+            int idAgente = rs.getInt("idAgente");
+            System.out.println(ident);
         }
         return al;
     }

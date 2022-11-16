@@ -16,6 +16,14 @@ public class Multa {
         this.eliminado = eliminado;
         this.idAgente = idAgente;
     }
+    
+    public Multa(String localidad, double coste, int idAgente) {
+        this.localidad = localidad;
+        this.coste = coste;
+        this.pagada = false;
+        this.eliminado = false;
+        this.idAgente = idAgente;
+    }
 
     public int getIdAgente() {
         return idAgente;
@@ -67,6 +75,6 @@ public class Multa {
 
     @Override
     public String toString() {
-        return "Multas{" + "id=" + id + ", localidad=" + localidad + ", coste=" + coste + ", pagada=" + pagada + ", eliminado=" + eliminado + ", idAgente=" + idAgente + '}';
+        return "Multas{" + "id=" + id + ", localidad=" + localidad + ", coste=" + coste + ", pagada=" + pagada + ", idAgente=" + idAgente;
     }
 }
