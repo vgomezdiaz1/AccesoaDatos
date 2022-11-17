@@ -42,7 +42,7 @@ public class Agente {
 
     @Override
     public String toString() {
-        return "Agente{" + "id=" + id + ", nombre=" + nombre + ", eliminado=" + eliminado + '}';
+        return "Agente id=" + id + ", nombre=" + nombre;
     }
     
     

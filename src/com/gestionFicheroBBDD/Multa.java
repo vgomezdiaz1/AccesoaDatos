@@ -1,6 +1,7 @@
 package com.gestionFicheroBBDD;
 
 public class Multa {
+
     private int id;
     private String localidad;
     private double coste;
@@ -16,7 +17,16 @@ public class Multa {
         this.eliminado = eliminado;
         this.idAgente = idAgente;
     }
-    
+
+    public Multa(int id, String localidad, double coste, int idAgente) {
+        this.id = id;
+        this.localidad = localidad;
+        this.coste = coste;
+        this.pagada = false;
+        this.eliminado = false;
+        this.idAgente = idAgente;
+    }
+
     public Multa(String localidad, double coste, int idAgente) {
         this.localidad = localidad;
         this.coste = coste;
@@ -75,6 +85,7 @@ public class Multa {
 
     @Override
     public String toString() {
-        return "Multas{" + "id=" + id + ", localidad=" + localidad + ", coste=" + coste + ", pagada=" + pagada + ", idAgente=" + idAgente;
+        return "Multa id=" + id + ", localidad=" + localidad + ", coste=" + coste + ", idAgente=" + idAgente;
     }
+
 }

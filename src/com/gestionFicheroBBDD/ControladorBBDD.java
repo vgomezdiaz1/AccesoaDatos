@@ -55,20 +55,21 @@ public class ControladorBBDD {
     }
 
     public void borrarMulta(int id) throws SQLException {
-        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("UPDATE Agente SET eliminado = ?  WHERE id = ? ");
+        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("UPDATE Multa SET eliminado = ?  WHERE id = ? ");
         pst.setBoolean(1, true);
         pst.setInt(2, id);
         pst.execute();
     }
 
     public void borrarAgente(int id) throws SQLException {
-        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("DELETE FROM Agente WHERE id = ?");
-        pst.setInt(1, id);
+        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("UPDATE Agente SET eliminado = ?  WHERE id = ? ");
+        pst.setBoolean(1, true);
+        pst.setInt(2, id);
         pst.execute();
     }
 
     public void modificarMulta(int id, Multa m) throws SQLException {
-        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("UPDATE Departamento SET localidad = ?, coste = ?, pagada = ?, eliminado = ?, idAgente =?  WHERE id = ? ");
+        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("UPDATE Multa SET localidad = ?, coste = ?, pagada = ?, eliminado = ?, idAgente =?  WHERE id = ? ");
         pst.setString(1, m.getLocalidad());
         pst.setDouble(2, m.getCoste());
         pst.setBoolean(3, m.isPagada());
@@ -87,7 +88,7 @@ public class ControladorBBDD {
     }
 
     public void pagarMulta(int id) throws SQLException {
-        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("UPDATE Departamento SET pagada = ?,  WHERE id = ? ");
+        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("UPDATE Multa SET pagada = ?  WHERE id = ? ");
         pst.setBoolean(1, true);
         pst.setInt(2, id);
         pst.execute();
@@ -166,30 +167,13 @@ public class ControladorBBDD {
      * @return Devuelve todas las multas que siguen en activo y estan sin pagar
      * @throws SQLException
      */
-    public ArrayList<Multa> consultarTodasMultaPagadas() throws SQLException {
+    public ArrayList<Multa> consultarTodasMultaSinPagar() throws SQLException {
         ArrayList<Multa> al = new ArrayList<>();
         Departamento d = null;
         PreparedStatement pst = (PreparedStatement) cn.prepareStatement("SELECT * from Multa where eliminado = ? and pagada = ?");
         pst.setBoolean(1, false);
         pst.setBoolean(2, false);
         ResultSet rs = pst.executeQuery();
-        while (rs.next()) {
-            al.add(recogerMulta(rs));
-        }
-        return al;
-    }
-
-    /**
-     *
-     * @return Devuelve todas las multas que siguen en activo
-     * @throws SQLException
-     */
-    public ArrayList<Multa> consultarTodasMulta() throws SQLException {
-        ArrayList<Multa> al = new ArrayList<>();
-        Departamento d = null;
-        Statement st;
-        st = cn.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * from Multa where eliminado = 0");
         while (rs.next()) {
             al.add(recogerMulta(rs));
         }
@@ -215,7 +199,7 @@ public class ControladorBBDD {
 
     public ArrayList<Multa> consultarTodasMultaPorAgente(String nombre) throws SQLException {
         ArrayList<Multa> al = new ArrayList<>();
-        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("SELECT Multa.* from Multa INNER JOIN Agente ON Agente.id = Multa.id where Agente.nombre = ? ");
+        PreparedStatement pst = (PreparedStatement) cn.prepareStatement("SELECT Multa.* from Multa INNER JOIN Agente ON Agente.id = Multa.idAgente where Agente.nombre = ? ");
         pst.setString(1, nombre);
         ResultSet rs = pst.executeQuery();
         while (rs.next()) {
@@ -225,7 +209,7 @@ public class ControladorBBDD {
             boolean p = rs.getBoolean("pagada");
             boolean e = rs.getBoolean("eliminado");
             int idAgente = rs.getInt("idAgente");
-            System.out.println(ident);
+            al.add(new Multa(ident, l,c, idAgente));
         }
         return al;
     }

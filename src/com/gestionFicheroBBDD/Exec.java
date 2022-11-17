@@ -3,8 +3,6 @@ package com.gestionFicheroBBDD;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Exec {
 
@@ -55,13 +53,10 @@ public class Exec {
                     consultarMultaPorID(sc, cm);
                     break;
                 case 12:
-                    consultarTodasLasMultas(sc, cm);
-                    break;
-                case 13:
                     System.out.println("Hasta luego");
                     break;
             }
-        } while (n < 13);
+        } while (n < 12);
     }
 
     public static int menu(Scanner sc) {
@@ -79,9 +74,7 @@ public class Exec {
             System.out.println("9-Consultar todos los agentes:");
             System.out.println("10-Buscar multas por nombre de agente");
             System.out.println("11-Buscar multas por número de multa");
-            System.out.println("--------EXTRA--------");
-            System.out.println("12-Consultar todas las multas pagadas o no");
-            System.out.println("13-Salir");
+            System.out.println("12-Salir");
             String seleccion = sc.nextLine();
             try {
                 n = Integer.parseInt(seleccion);
@@ -90,12 +83,12 @@ public class Exec {
             }
             if (!(n == 1 || n == 2 || n == 3 || n == 4 || n == 5 || n == 6
                     || n == 7 || n == 8 || n == 9 || n == 10 || n == 11
-                    || n == 12 || n == 13)) {
+                    || n == 12)) {
                 System.out.println("Opcion no valida");
             }
         } while (!(n == 1 || n == 2 || n == 3 || n == 4 || n == 5 || n == 6
                 || n == 7 || n == 8 || n == 9 || n == 10 || n == 11
-                || n == 12 || n == 13));
+                || n == 12));
         return n;
     }
 
@@ -119,7 +112,6 @@ public class Exec {
         try {
             cm.crearMulta(m);
         } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -130,7 +122,6 @@ public class Exec {
         try {
             ca.crearAgente(m);
         } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -157,32 +148,27 @@ public class Exec {
         Multa aux = null;
         try {
             aux = cm.consultarMulta(nMulta);
-        } catch (SQLException ex) {
-            Logger.getLogger(Exec.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (aux != null) {
-            System.out.println("Este es la multa a modificar: " + aux.toString());
-            int nAgente = existeElAgente(sc, cm);
-            System.out.println("Dime la localidad: ");
-            String localidad = sc.nextLine();
-            do {
-                coste = -1;
-                System.out.println("Dime el coste:");
-                String c = sc.nextLine();
-                try {
-                    coste = Integer.parseInt(c);
-                } catch (Exception e) {
-                    System.out.println("Lo introducido no es un numero");
-                }
-            } while (coste < 0);
-            Multa m = new Multa(localidad, coste, nAgente);
-            try {
+            if (aux != null) {
+                System.out.println("Este es la multa a modificar: " + aux.toString());
+                int nAgente = existeElAgente(sc, cm);
+                System.out.println("Dime la localidad: ");
+                String localidad = sc.nextLine();
+                do {
+                    coste = -1;
+                    System.out.println("Dime el coste:");
+                    String c = sc.nextLine();
+                    try {
+                        coste = Integer.parseInt(c);
+                    } catch (Exception e) {
+                        System.out.println("Lo introducido no es un numero");
+                    }
+                } while (coste < 0);
+                Multa m = new Multa(localidad, coste, nAgente);
                 cm.modificarMulta(nMulta, m);
-            } catch (SQLException ex) {
-                Logger.getLogger(Exec.class.getName()).log(Level.SEVERE, null, ex);
+            } else {
+                System.out.println("Esa multa no existe");
             }
-        } else {
-            System.out.println("Esa multa no existe");
+        } catch (SQLException ex) {
         }
     }
 
@@ -199,7 +185,6 @@ public class Exec {
                 cm.modificarAgente(nAgente, a);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Exec.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -235,7 +220,6 @@ public class Exec {
             try {
                 cm.pagarMulta(nMulta);
             } catch (SQLException ex) {
-                Logger.getLogger(Exec.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -243,9 +227,8 @@ public class Exec {
     public static void consultarMultasSinPagar(Scanner sc, ControladorBBDD cm) {
         ArrayList<Multa> al = new ArrayList<>();
         try {
-            al = cm.consultarTodasMulta();
+            al = cm.consultarTodasMultaSinPagar();
         } catch (SQLException ex) {
-            ex.printStackTrace();
         }
         for (Multa m : al) {
             System.out.println(m.toString());
@@ -257,7 +240,6 @@ public class Exec {
         try {
             al = ca.consultarTodasAgente();
         } catch (SQLException ex) {
-            ex.printStackTrace();
         }
         for (Agente a : al) {
             System.out.println(a.toString());
@@ -269,7 +251,6 @@ public class Exec {
         try {
             Multa m = cm.consultarMulta(nMulta);
         } catch (SQLException ex) {
-            Logger.getLogger(Exec.class.getName()).log(Level.SEVERE, null, ex);
         }
         return nMulta;
     }
@@ -277,31 +258,19 @@ public class Exec {
     public static void consultarMultasPorNombreDeAgente(Scanner sc, ControladorBBDD cm) {
         System.out.println("Dime el nombre del agente:");
         String nombre = sc.nextLine();
-        int nAgente;
         try {
-            nAgente = cm.consultarAgentePorNombre(nombre).getId();
-            if (nAgente == -1) {
+            ArrayList<Multa> al = cm.consultarTodasMultaPorAgente(nombre);
+            if (al.size() == 0) {
                 System.out.println("No existe el agente con ese nombre");
             } else {
-                ArrayList<Multa> al = cm.consultarTodasMultaPorAgente(nombre);
                 for (Multa m : al) {
                     System.out.println(m.toString());
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Exec.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
 
-    }
-
-    public static void consultarTodasLasMultas(Scanner sc, ControladorBBDD cm) {
-        try {
-            for (Multa m : cm.consultarTodasMulta()) {
-                System.out.println(m.toString());
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Exec.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public static int conseguirNumero(String necesidad, Scanner sc) {
@@ -331,7 +300,6 @@ public class Exec {
                 System.out.println("El agente seleccionado es " + m.getNombre());
                 existeAgente = true;
             } catch (Exception e) {
-                e.printStackTrace();
                 System.out.println("El agente no existe, seleccione otro");
             }
         } while (!existeAgente);
