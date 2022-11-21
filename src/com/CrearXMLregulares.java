@@ -10,10 +10,14 @@ public class CrearXMLregulares {
     public static void main(String[] args) {
         Departamento d1 = new Departamento("Victor", "Andrea", 10, 5, "A", true);
         Departamento d2 = new Departamento("Andrea", "Jefa", 2, 8, "B", true);
+        Departamento d3 = new Departamento("Wii", "Juan", 1, 2, "T", true);
+        Departamento d4 = new Departamento("Torvic", "Tre", 5, 7, "C", false);
         //Hay que crearse un objeto intermedio para poder guardarlo en XML
         DepartamentosArrayList deps = new DepartamentosArrayList();
         deps.getAl().add(d1);
         deps.getAl().add(d2);
+        deps.getAl().add(d3);
+        deps.getAl().add(d4);
         //Creamos la clase constructora
         XStream xs = new XStream(new DomDriver());
         //Cambiamos nombres para que salga bonito
@@ -29,6 +33,5 @@ public class CrearXMLregulares {
             fw.write(cadena);
         } catch (Exception e) {
         }
-        
     }
 }

@@ -15,4 +15,20 @@
     <puerta>B</puerta>
     <eliminado>true</eliminado>
   </departamento>
+  <departamento>
+    <nombre>Wii</nombre>
+    <responsable>Juan</responsable>
+    <nEmpleados>1</nEmpleados>
+    <nPlanta>2</nPlanta>
+    <puerta>T</puerta>
+    <eliminado>true</eliminado>
+  </departamento>
+  <departamento>
+    <nombre>Torvic</nombre>
+    <responsable>Tre</responsable>
+    <nEmpleados>5</nEmpleados>
+    <nPlanta>7</nPlanta>
+    <puerta>C</puerta>
+    <eliminado>false</eliminado>
+  </departamento>
 </departamentos>
