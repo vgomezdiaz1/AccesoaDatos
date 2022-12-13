@@ -69,7 +69,7 @@ public class ControladorDepartamento {
     public Departamento consultaUnDepartamento(int posicion) {
         Departamento d = null;
         Departamento dep = null;
-        try (RandomAccessFile raf = new RandomAccessFile("./departamento.dat", "r");) {
+        try (RandomAccessFile raf = new RandomAccessFile(this.nombreFichero, "r");) {
             raf.seek(Departamento.getSize() * posicion);
             d = (leerDepartamento(raf));
             if (!d.isEliminado()) {
@@ -84,7 +84,7 @@ public class ControladorDepartamento {
     public ArrayList<Departamento> consultaCompleta() {
         Departamento d = null;
         ArrayList<Departamento> al = new ArrayList<>();
-        try (RandomAccessFile raf = new RandomAccessFile("./departamento.dat", "r");) {
+        try (RandomAccessFile raf = new RandomAccessFile(this.nombreFichero, "r");) {
             int total = (int) (raf.length() / Departamento.getSize());
             for (int i = 0; i < total; i++) {
                 d = (leerDepartamento(raf));

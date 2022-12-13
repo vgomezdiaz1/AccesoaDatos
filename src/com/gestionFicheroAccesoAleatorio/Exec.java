@@ -143,12 +143,12 @@ public class Exec {
         int m = -1;
         int n = -1;
         int x = -1;
-        String nEmpleados = "";
+        String id = "";
         do {
             System.out.println("Dime el id:");
-            nEmpleados = sc.nextLine();
+            id = sc.nextLine();
             try {
-                m = Integer.parseInt(nEmpleados);
+                m = Integer.parseInt(id);
             } catch (Exception e) {
                 System.out.println("Lo introducido no es un numero");
             }
@@ -163,31 +163,31 @@ public class Exec {
             String responsable = sc.nextLine();
             do {
                 System.out.println("Dime el numero de empleados: ");
-                nEmpleados = sc.nextLine();
+                id = sc.nextLine();
                 try {
-                    n = Integer.parseInt(nEmpleados);
+                    n = Integer.parseInt(id);
                 } catch (Exception e) {
                     System.out.println("Lo introducido no es un numero");
                 }
-            } while (n < 0 || nEmpleados.equals(""));
+            } while (n < 0 || id.equals(""));
             if (nombre.equals("")) {
                 nombre = dep.getNombre().toString();
             }
             if (responsable.equals("")) {
                 responsable = dep.getResponsable().toString();
             }
-            if (nEmpleados.equals("")) {
+            if (id.equals("")) {
                 n = dep.getnEmpleados();
             }
             do {
                 System.out.println("Dime el numero de planta: ");
-                nEmpleados = sc.nextLine();
+                id = sc.nextLine();
                 try {
-                    x = Integer.parseInt(nEmpleados);
+                    x = Integer.parseInt(id);
                 } catch (Exception e) {
                     System.out.println("Lo introducido no es un numero");
                 }
-            } while (x < 0 || nEmpleados.equals(""));
+            } while (x < 0 || id.equals(""));
             System.out.println("Dime la puerta: ");
             String puerta = sc.nextLine();
             Departamento d = new Departamento(nombre, responsable, n, m, puerta);

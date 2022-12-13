@@ -65,6 +65,7 @@ public class ControladorDepartamento {
         ResultSet rs = st.executeQuery("SELECT * from Departamento");
         while (rs.next()) {
             al.add(recogerDepartamento(rs));
+            al.size();
         }
         return al;
     }
